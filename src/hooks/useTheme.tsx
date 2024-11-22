@@ -24,7 +24,6 @@ export function ThemeProvider({
     children,
     defaultTheme = "light",
     storageKey = "vite-ui-theme",
-    ...props
 }: ThemeProviderProps) {
     const [theme, setTheme] = useState<Theme>(() => {
         const storedTheme = localStorage.getItem(storageKey);
@@ -35,7 +34,7 @@ export function ThemeProvider({
         const root = window.document.documentElement;
         root.classList.remove("light", "dark");
         root.classList.add(theme);
-        localStorage.setItem(storageKey, theme); // Ensure the theme is saved
+        localStorage.setItem(storageKey, theme); // Save the theme
     }, [theme]);
 
     const value = {
@@ -47,7 +46,7 @@ export function ThemeProvider({
     };
 
     return (
-        <ThemeProviderContext.Provider value={value} {...props}>
+        <ThemeProviderContext.Provider value={value}>
             {children}
         </ThemeProviderContext.Provider>
     );
@@ -56,7 +55,7 @@ export function ThemeProvider({
 export function useTheme() {
     const context = useContext(ThemeProviderContext);
     
-    if (context === undefined) {
+    if (!context) {
         throw new Error("useTheme must be used within a ThemeProvider");
     }
     

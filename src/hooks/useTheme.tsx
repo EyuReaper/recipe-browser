@@ -13,6 +13,13 @@ type ThemeProviderState = {
     setTheme: (theme: Theme) => void;
 };
 
+// Toast interface
+interface Toast {
+    id: string;
+    title?: string;
+    description?: string;
+}
+
 const initialState: ThemeProviderState = {
     theme: "light",
     setTheme: () => {},
@@ -60,4 +67,21 @@ export function useTheme() {
     }
     
     return context;
+}
+
+// Define and export useToast
+export function useToast() {
+    const [toasts, setToasts] = useState<Toast[]>([]);
+
+    const addToast = (toast: Omit<Toast, 'id'>) => {
+        const id = Math.random().toString(36).substr(2, 9); // Generate a unique ID
+        setToasts((prev) => [...prev, { id, ...toast }]);
+
+        // Optional: Remove the toast after a timeout
+        setTimeout(() => {
+            setToasts((prev) => prev.filter(t => t.id !== id));
+        }, 3000); // Adjust duration as needed
+    };
+
+    return { toasts, addToast };
 }

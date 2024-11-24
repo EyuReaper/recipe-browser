@@ -1,4 +1,4 @@
-import { useToast } from "@/hooks/use-toast"
+import { useToast } from "../../hooks/use-toast";
 import {
   Toast,
   ToastClose,
@@ -6,10 +6,21 @@ import {
   ToastProvider,
   ToastTitle,
   ToastViewport,
-} from "@/components/ui/toast"
+} from "../../components/ui/toast";
+import { useEffect } from "react";
 
 export function Toaster() {
-  const { toasts } = useToast()
+  const { toasts, toast } = useToast();
+
+  // Show a toast
+  useEffect(() => {
+    // show a toast when components mount
+    toast({
+      title: "Success",
+      description: "Your action was completed successfully"
+    });
+    
+  }, [toast]);
 
   return (
     <ToastProvider>
